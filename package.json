@@ -4,7 +4,7 @@
   "description": "NextGen Smart Variants - Product Image Variant Management App",
   "type": "module",
   "scripts": {
-    "prebuild": "npm run setup",
+    "prebuild": "prisma generate",
     "build": "react-router build",
     "dev": "shopify app dev",
     "config:link": "shopify app config link",
