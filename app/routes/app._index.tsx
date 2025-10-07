@@ -186,6 +186,11 @@ interface Product {
 }
 
 export default function NextGenSmartVariantsApp() {
+  // Version indicator for testing
+  useEffect(() => {
+    console.log('🚀 NextGen Smart Variants - VERSION 9 - Build Fixed');
+  }, []);
+  
   const { products: initialProducts, totalFetched } = useLoaderData<typeof loader>();
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
