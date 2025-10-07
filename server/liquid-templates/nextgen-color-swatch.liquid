@@ -1,0 +1,108 @@
+{% comment %}
+  NextGen Smart Variants - Color Swatch Component
+  Usage: {% include 'nextgen-color-swatch' with value: 'Red', available: true, size: 'medium' %}
+{% endcomment %}
+
+{% liquid
+  assign swatch_size = size | default: 'medium'
+  assign swatch_value = value | default: ''
+  assign swatch_available = available | default: true
+  assign swatch_option = option_name | default: 'Color'
+  
+  comment
+    Color mapping for common color names
+  endcomment
+  
+  assign color_hex = '#cccccc'
+  case swatch_value
+    when 'red' or 'Red'
+      assign color_hex = '#ff0000'
+    when 'blue' or 'Blue'
+      assign color_hex = '#0000ff'
+    when 'green' or 'Green'
+      assign color_hex = '#00ff00'
+    when 'black' or 'Black'
+      assign color_hex = '#000000'
+    when 'white' or 'White'
+      assign color_hex = '#ffffff'
+    when 'yellow' or 'Yellow'
+      assign color_hex = '#ffff00'
+    when 'pink' or 'Pink'
+      assign color_hex = '#ffc0cb'
+    when 'purple' or 'Purple'
+      assign color_hex = '#800080'
+    when 'orange' or 'Orange'
+      assign color_hex = '#ffa500'
+    when 'gray' or 'Grey'
+      assign color_hex = '#808080'
+    when 'brown' or 'Brown'
+      assign color_hex = '#a52a2a'
+    when 'navy' or 'Navy'
+      assign color_hex = '#000080'
+  endcase
+  
+  comment
+    Check if value is already a hex color
+  endcomment
+  
+  if swatch_value contains '#'
+    assign color_hex = swatch_value
+  endif
+  
+  comment
+    Size-based dimensions
+  endcomment
+  
+  assign swatch_dimensions = '32px'
+  if swatch_size == 'small'
+    assign swatch_dimensions = '24px'
+  elsif swatch_size == 'large'
+    assign swatch_dimensions = '40px'
+  endif
+%}
+
+<button 
+  class="nextgen-color-swatch nextgen-variant-option{% unless swatch_available %} nextgen-unavailable{% endunless %}" 
+  data-option-name="{{ swatch_option }}"
+  data-option-value="{{ swatch_value }}"
+  data-available="{{ swatch_available }}"
+  title="{{ swatch_value }}{% unless swatch_available %} (Unavailable){% endunless %}"
+  style="
+    width: {{ swatch_dimensions }};
+    height: {{ swatch_dimensions }};
+    background-color: {{ color_hex }};
+    border: 2px solid #e1e5e9;
+    border-radius: 50%;
+    cursor: {% if swatch_available %}pointer{% else %}not-allowed{% endif %};
+    transition: all 0.2s ease;
+    outline: none;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    {% unless swatch_available %}opacity: 0.5;{% endunless %}
+  "
+  {% if swatch_available %}onclick="NextGenVariants.selectOption('{{ swatch_option }}', '{{ swatch_value }}')"{% endif %}
+  onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.15)'"
+  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 1px 3px rgba(0, 0, 0, 0.1)'"
+>
+  {% comment %} White border for white/light colors {% endcomment %}
+  {% if color_hex == '#ffffff' or color_hex == '#fff' %}
+    <span style="
+      position: absolute;
+      inset: 2px;
+      border: 1px solid #e1e5e9;
+      border-radius: 50%;
+      pointer-events: none;
+    "></span>
+  {% endif %}
+  
+  {% comment %} Unavailable overlay {% endcomment %}
+  {% unless swatch_available %}
+    <span style="
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 40%, #ff0000 45%, #ff0000 55%, transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+    "></span>
+  {% endunless %}
+</button>

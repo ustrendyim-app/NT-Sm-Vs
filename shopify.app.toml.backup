@@ -1,0 +1,33 @@
+# NextGen Smart Variants - Product Image Variant App
+# DO NOT CONFUSE WITH OTHER APPS - THIS IS SPECIFICALLY FOR NEXTGEN SMART VARIANTS
+
+name = "NextGen Smart Variants"
+handle = "nextgen-smart-variants-1"
+client_id = "285217980417"
+application_url = "https://localhost:8081"  # Unique port to avoid conflicts
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "https://quickstart-dev-store.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Specific scopes for NextGen Smart Variants functionality
+scopes = "write_products,read_products,write_product_listings,read_product_listings,read_inventory,write_inventory"
+
+[auth]
+redirect_urls = [
+  "https://localhost:8081/api/auth/callback",
+  "https://localhost:8081/auth/shopify/callback"
+]
+
+[webhooks]
+api_version = "2024-01"  # Latest API version
+
+[pos]
+embedded = false
+
+[[app_proxy]]
+url = "https://localhost:8081/api/proxy/nextgen-variants"
+subpath = "nextgen-smart-variants"
+prefix = "apps"

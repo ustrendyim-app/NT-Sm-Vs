@@ -1,0 +1,147 @@
+{% comment %}
+  NextGen Smart Variants - Main Liquid Snippet
+  Version: 1.0.0
+  App ID: 285217980417
+  
+  Usage: {% include 'nextgen-variants' with product: product, position: 'above_price' %}
+  or using the shortcode: {% nextgen_variants product %}
+{% endcomment %}
+
+{% liquid
+  assign nextgen_position = position | default: 'above_price'
+  assign nextgen_layout = layout | default: 'horizontal' 
+  assign nextgen_size = size | default: 'medium'
+  assign nextgen_product = product | default: product
+  assign nextgen_enabled = true
+  
+  comment
+    Check if product has variants
+  endcomment
+  
+  if nextgen_product.variants.size <= 1
+    assign nextgen_enabled = false
+  endif
+  
+  comment
+    Check if NextGen Smart Variants is enabled for this product
+  endcomment
+  
+  if nextgen_product.metafields.nextgen_variants.enabled == false
+    assign nextgen_enabled = false
+  endif
+%}
+
+{% if nextgen_enabled %}
+  <div 
+    class="nextgen-variant-visualizer nextgen-{{ nextgen_layout }} nextgen-{{ nextgen_size }}" 
+    data-product-id="{{ nextgen_product.id }}"
+    data-position="{{ nextgen_position }}"
+    data-layout="{{ nextgen_layout }}"
+    data-size="{{ nextgen_size }}"
+    style="margin: {% if nextgen_size == 'small' %}0.5rem{% elsif nextgen_size == 'large' %}1.5rem{% else %}1rem{% endif %} 0;"
+  >
+    
+    {% comment %} Variant Options {% endcomment %}
+    {% assign variant_options = '' %}
+    {% for variant in nextgen_product.variants %}
+      {% for option in variant.options %}
+        {% assign option_name = nextgen_product.options_with_values[forloop.index0].name %}
+        {% assign option_values = variant_options[option_name] | default: '' %}
+        {% unless option_values contains option.value %}
+          {% if option_values != '' %}
+            {% assign option_values = option_values | append: ',' %}
+          {% endif %}
+          {% assign option_values = option_values | append: option.value %}
+          {% assign variant_options[option_name] = option_values %}
+        {% endunless %}
+      {% endfor %}
+    {% endfor %}
+
+    {% comment %} Render variant selectors {% endcomment %}
+    <div class="nextgen-variant-options" 
+         style="display: {% if nextgen_layout == 'vertical' %}flex; flex-direction: column;{% else %}flex; flex-wrap: wrap;{% endif %} gap: {% if nextgen_size == 'small' %}0.5rem{% elsif nextgen_size == 'large' %}1.5rem{% else %}1rem{% endif %}; align-items: {% if nextgen_layout == 'vertical' %}flex-start{% else %}center{% endif %};">
+    
+      {% for option in nextgen_product.options_with_values %}
+        {% assign option_name = option.name %}
+        {% assign option_values = option.values %}
+        {% assign option_type = 'text' %}
+        
+        {% comment %} Detect option type {% endcomment %}
+        {% assign lower_name = option_name | downcase %}
+        {% if lower_name contains 'color' or lower_name contains 'colour' %}
+          {% assign option_type = 'color' %}
+        {% elsif lower_name contains 'size' %}
+          {% assign option_type = 'size' %}
+        {% endif %}
+        
+        <div class="nextgen-option-group nextgen-{{ option_type }}-group">
+          <label class="nextgen-option-label" 
+                 style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #6d7175; font-size: {% if nextgen_size == 'small' %}0.8rem{% elsif nextgen_size == 'large' %}1rem{% else %}0.9rem{% endif %};">
+            {{ option_name }}
+          </label>
+          
+          <div class="nextgen-option-values nextgen-{{ option_type }}-values"
+               style="display: flex; flex-wrap: wrap; gap: {% if nextgen_size == 'small' %}0.25rem{% elsif nextgen_size == 'large' %}0.75rem{% else %}0.5rem{% endif %};">
+            
+            {% for value in option_values %}
+              {% assign variant_available = false %}
+              {% for variant in nextgen_product.variants %}
+                {% if variant.options[forloop.parentloop.index0] == value and variant.available %}
+                  {% assign variant_available = true %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+              
+              {% if option_type == 'color' %}
+                {% include 'nextgen-color-swatch' with value: value, available: variant_available, size: nextgen_size, option_name: option_name %}
+              {% elsif option_type == 'size' %}
+                {% include 'nextgen-size-selector' with value: value, available: variant_available, size: nextgen_size, option_name: option_name %}
+              {% else %}
+                {% include 'nextgen-text-option' with value: value, available: variant_available, size: nextgen_size, option_name: option_name %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% comment %} Selected variant info {% endcomment %}
+    <div class="nextgen-variant-info" style="margin-top: 0.5rem; display: none;">
+      <div class="nextgen-selected-variant" data-variant-id="{{ nextgen_product.selected_or_first_available_variant.id }}">
+        {% comment %} Will be populated by JavaScript {% endcomment %}
+      </div>
+    </div>
+
+    {% comment %} App attribution {% endcomment %}
+    <div class="nextgen-attribution" 
+         style="font-size: 10px; color: #999; text-align: center; margin-top: 0.5rem;">
+      Powered by NextGen Smart Variants
+    </div>
+  </div>
+
+  {% comment %} Load NextGen Smart Variants JavaScript {% endcomment %}
+  {% unless nextgen_scripts_loaded %}
+    {% include 'nextgen-variants-js' %}
+    {% assign nextgen_scripts_loaded = true %}
+  {% endunless %}
+
+  {% comment %} Load NextGen Smart Variants CSS {% endcomment %}
+  {% unless nextgen_styles_loaded %}
+    {% include 'nextgen-variants-css' %}
+    {% assign nextgen_styles_loaded = true %}
+  {% endunless %}
+
+  {% comment %} Initialize variant selector {% endcomment %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof NextGenVariants !== 'undefined') {
+        NextGenVariants.init({{ nextgen_product | json }}, {
+          position: '{{ nextgen_position }}',
+          layout: '{{ nextgen_layout }}',
+          size: '{{ nextgen_size }}',
+          productId: {{ nextgen_product.id }}
+        });
+      }
+    });
+  </script>
+{% endif %}

@@ -1,0 +1,324 @@
+{% comment %}
+  NextGen Smart Variants - CSS Styles
+  This snippet contains all the necessary CSS for NextGen Smart Variants
+{% endcomment %}
+
+<style>
+/* NextGen Smart Variants - Frontend Styles */
+.nextgen-variant-visualizer {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  color: #202223;
+}
+
+.nextgen-variant-visualizer * {
+  box-sizing: border-box;
+}
+
+/* Layout Styles */
+.nextgen-variant-visualizer.nextgen-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nextgen-variant-visualizer.nextgen-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.nextgen-variant-visualizer.nextgen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Size Variations */
+.nextgen-variant-visualizer.nextgen-small {
+  font-size: 14px;
+  gap: 0.5rem;
+}
+
+.nextgen-variant-visualizer.nextgen-large {
+  font-size: 18px;
+  gap: 1.5rem;
+}
+
+/* Option Groups */
+.nextgen-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nextgen-option-label {
+  display: block;
+  font-weight: 600;
+  color: #6d7175;
+  margin: 0;
+  font-size: 0.9em;
+}
+
+.nextgen-option-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Color Swatches */
+.nextgen-color-swatch {
+  position: relative;
+  border: 2px solid #e1e5e9;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  outline: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nextgen-color-swatch:hover:not(.nextgen-unavailable) {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.nextgen-color-swatch:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.nextgen-color-swatch.nextgen-selected {
+  border-color: #6366f1;
+  border-width: 3px;
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.nextgen-color-swatch.nextgen-unavailable {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Size Selectors */
+.nextgen-size-selector {
+  background-color: #ffffff;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  outline: none;
+  text-align: center;
+  position: relative;
+}
+
+.nextgen-size-selector:hover:not(.nextgen-unavailable) {
+  background-color: #f6f6f7;
+  border-color: #6366f1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.15);
+}
+
+.nextgen-size-selector:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.nextgen-size-selector.nextgen-selected {
+  background-color: #6366f1;
+  border-color: #6366f1;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+.nextgen-size-selector.nextgen-unavailable {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f6f6f7;
+  border-color: #d1d5db;
+  color: #9ca3af;
+}
+
+/* Text Options */
+.nextgen-text-option {
+  background-color: #ffffff;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+  cursor: pointer;
+}
+
+.nextgen-text-option:hover:not(.nextgen-unavailable) {
+  background-color: #f6f6f7;
+  border-color: #6366f1;
+}
+
+.nextgen-text-option:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.nextgen-text-option.nextgen-selected {
+  background-color: #6366f1;
+  border-color: #6366f1;
+  color: #ffffff;
+}
+
+.nextgen-text-option.nextgen-unavailable {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f6f6f7;
+  color: #9ca3af;
+}
+
+/* Variant Info */
+.nextgen-variant-info {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f6f6f7;
+  border-radius: 6px;
+  font-size: 0.9em;
+  color: #6d7175;
+}
+
+.nextgen-selected-variant {
+  font-weight: 500;
+}
+
+/* Price Display */
+.nextgen-price-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0;
+}
+
+.nextgen-current-price {
+  font-weight: 600;
+  color: #202223;
+}
+
+.nextgen-compare-price {
+  text-decoration: line-through;
+  color: #6d7175;
+  font-size: 0.9em;
+}
+
+.nextgen-savings-badge {
+  background-color: #d73502;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.nextgen-stock-status {
+  font-size: 0.8em;
+  font-weight: 500;
+}
+
+.nextgen-stock-status.in-stock {
+  color: #008060;
+}
+
+.nextgen-stock-status.out-of-stock {
+  color: #bf0711;
+}
+
+/* Attribution */
+.nextgen-attribution {
+  font-size: 10px;
+  color: #999999;
+  text-align: center;
+  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+
+.nextgen-attribution:hover {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nextgen-variant-visualizer.nextgen-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .nextgen-variant-visualizer.nextgen-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nextgen-option-values {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .nextgen-color-swatch {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  
+  .nextgen-size-selector,
+  .nextgen-text-option {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Animation */
+@keyframes nextgen-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.nextgen-variant-option.nextgen-loading {
+  animation: nextgen-pulse 1.5s ease-in-out infinite;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .nextgen-color-swatch {
+    border-width: 3px;
+  }
+  
+  .nextgen-size-selector,
+  .nextgen-text-option {
+    border-width: 2px;
+    font-weight: 700;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .nextgen-variant-option {
+    transition: none;
+  }
+  
+  .nextgen-color-swatch:hover {
+    transform: none;
+  }
+  
+  .nextgen-size-selector:hover {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .nextgen-variant-visualizer {
+    display: none;
+  }
+}
+</style>

@@ -1,0 +1,84 @@
+{% comment %}
+  NextGen Smart Variants - Size Selector Component
+  Usage: {% include 'nextgen-size-selector' with value: 'M', available: true, size: 'medium' %}
+{% endcomment %}
+
+{% liquid
+  assign selector_size = size | default: 'medium'
+  assign selector_value = value | default: ''
+  assign selector_available = available | default: true
+  assign selector_option = option_name | default: 'Size'
+  
+  comment
+    Size-based styling
+  endcomment
+  
+  assign button_padding = '8px 12px'
+  assign button_font_size = '14px'
+  
+  if selector_size == 'small'
+    assign button_padding = '6px 10px'
+    assign button_font_size = '12px'
+  elsif selector_size == 'large'
+    assign button_padding = '12px 16px'
+    assign button_font_size = '16px'
+  endif
+%}
+
+<button 
+  class="nextgen-size-selector nextgen-variant-option{% unless selector_available %} nextgen-unavailable{% endunless %}" 
+  data-option-name="{{ selector_option }}"
+  data-option-value="{{ selector_value }}"
+  data-available="{{ selector_available }}"
+  title="{{ selector_value }}{% unless selector_available %} (Unavailable){% endunless %}"
+  style="
+    padding: {{ button_padding }};
+    font-size: {{ button_font_size }};
+    font-weight: 600;
+    background-color: {% if selector_available %}#ffffff{% else %}#f6f6f7{% endif %};
+    border: 2px solid {% if selector_available %}#e1e5e9{% else %}#d1d5db{% endif %};
+    border-radius: 6px;
+    cursor: {% if selector_available %}pointer{% else %}not-allowed{% endif %};
+    transition: all 0.2s ease;
+    outline: none;
+    min-width: {{ button_font_size | times: 2.5 | round }}px;
+    text-align: center;
+    color: {% if selector_available %}#202223{% else %}#9ca3af{% endif %};
+    {% unless selector_available %}opacity: 0.6;{% endunless %}
+  "
+  {% if selector_available %}onclick="NextGenVariants.selectOption('{{ selector_option }}', '{{ selector_value }}')"{% endif %}
+  onmouseover="
+    {% if selector_available %}
+      this.style.backgroundColor='#f6f6f7';
+      this.style.borderColor='#6366f1';
+      this.style.transform='translateY(-1px)';
+      this.style.boxShadow='0 2px 8px rgba(99, 102, 241, 0.15)';
+    {% endif %}
+  "
+  onmouseout="
+    {% if selector_available %}
+      this.style.backgroundColor='#ffffff';
+      this.style.borderColor='#e1e5e9';
+      this.style.transform='translateY(0)';
+      this.style.boxShadow='none';
+    {% endif %}
+  "
+>
+  {{ selector_value | upcase }}
+  
+  {% comment %} Unavailable indicator {% endcomment %}
+  {% unless selector_available %}
+    <span style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 1px;
+      background-color: #ef4444;
+      transform-origin: center;
+      transform: translate(-50%, -50%) rotate(45deg);
+      pointer-events: none;
+    "></span>
+  {% endunless %}
+</button>

@@ -1,0 +1,81 @@
+/* NextGen Smart Variants - App Component Styles */
+
+.App {
+  text-align: center;
+}
+
+.nextgen-dashboard {
+  animation: nextgen-fade-in 0.5s ease-out;
+}
+
+.nextgen-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.nextgen-chart-container {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation customization */
+.Polaris-Navigation__Item[data-selected="true"] {
+  background-color: var(--nextgen-primary);
+}
+
+/* Card enhancements */
+.nextgen-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.nextgen-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Button enhancements */
+.nextgen-button-primary {
+  background-color: var(--nextgen-primary) !important;
+  border-color: var(--nextgen-primary) !important;
+}
+
+.nextgen-button-primary:hover {
+  background-color: color-mix(in srgb, var(--nextgen-primary) 90%, black 10%) !important;
+}
+
+/* Badge customizations */
+.Polaris-Badge--statusSuccess {
+  background-color: var(--nextgen-success);
+}
+
+.Polaris-Badge--statusCritical {
+  background-color: var(--nextgen-danger);
+}
+
+.Polaris-Badge--statusWarning {
+  background-color: var(--nextgen-warning);
+}
+
+.Polaris-Badge--statusInfo {
+  background-color: var(--nextgen-info);
+}
+
+/* Data table enhancements */
+.Polaris-DataTable__Table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .nextgen-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nextgen-hide-on-mobile {
+    display: none;
+  }
+}

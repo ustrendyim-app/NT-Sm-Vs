@@ -1,0 +1,7 @@
+{"appId":"285217980417","level":"info","message":"🗄️  NextGen Smart Variants - Running in development mode without database","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:36:35.225Z"}
+{"appId":"285217980417","environment":"development","level":"info","message":"NextGen Smart Variants server started successfully","port":"3001","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:36:35.245Z"}
+{"appId":"285217980417","level":"info","message":"🛑 NextGen Smart Variants - Shutting down gracefully...","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:41:34.209Z"}
+{"appId":"285217980417","level":"info","message":"🗄️  NextGen Smart Variants - Running in development mode without database","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:41:43.711Z"}
+{"appId":"285217980417","environment":"development","level":"info","message":"NextGen Smart Variants server started successfully","port":"3001","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:41:43.726Z"}
+{"appId":"285217980417","level":"info","message":"🗄️  NextGen Smart Variants - Running in development mode without database","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:43:03.757Z"}
+{"appId":"285217980417","environment":"development","level":"info","message":"NextGen Smart Variants server started successfully","port":"3001","service":"nextgen-smart-variants","timestamp":"2025-10-01T21:43:03.771Z"}

@@ -1,0 +1,69 @@
+Error: No route matches URL "/auth/login"
+    at getInternalRouterError (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:4652:5)
+    at Object.query (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:2796:19)
+    at handleDocumentRequest (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1300:38)
+    at requestHandler (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1213:24)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at nodeHandler (D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3414:30)
+    at D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3420:17
+No routes matched location "/auth/login" 
+ErrorResponseImpl {
+  status: 404,
+  statusText: 'Not Found',
+  internal: true,
+  data: 'Error: No route matches URL "/auth/login"',
+  error: Error: No route matches URL "/auth/login"
+      at getInternalRouterError (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:4652:5)
+      at Object.query (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:2796:19)
+      at handleDocumentRequest (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1300:38)
+      at requestHandler (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1213:24)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at nodeHandler (D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3414:30)
+      at D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3420:17
+}
+Error: No route matches URL "/.well-known/appspecific/com.chrome.devtools.json"
+    at getInternalRouterError (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:4652:5)
+    at Object.query (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:2796:19)
+    at handleDocumentRequest (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1300:38)
+    at requestHandler (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1213:24)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at nodeHandler (D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3414:30)
+    at D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3420:17
+Error: No route matches URL "/favicon.ico"
+    at getInternalRouterError (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:4652:5)
+    at Object.query (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:2796:19)
+    at handleDocumentRequest (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1300:38)
+    at requestHandler (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1213:24)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at nodeHandler (D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3414:30)
+    at D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3420:17
+No routes matched location "/.well-known/appspecific/com.chrome.devtools.json" 
+ErrorResponseImpl {
+  status: 404,
+  statusText: 'Not Found',
+  internal: true,
+  data: 'Error: No route matches URL "/.well-known/appspecific/com.chrome.devtools.json"',
+  error: Error: No route matches URL "/.well-known/appspecific/com.chrome.devtools.json"
+      at getInternalRouterError (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:4652:5)
+      at Object.query (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:2796:19)
+      at handleDocumentRequest (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1300:38)
+      at requestHandler (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1213:24)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at nodeHandler (D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3414:30)
+      at D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3420:17
+}
+No routes matched location "/favicon.ico" 
+ErrorResponseImpl {
+  status: 404,
+  statusText: 'Not Found',
+  internal: true,
+  data: 'Error: No route matches URL "/favicon.ico"',
+  error: Error: No route matches URL "/favicon.ico"
+      at getInternalRouterError (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:4652:5)
+      at Object.query (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-NISHYRIK.mjs:2796:19)
+      at handleDocumentRequest (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1300:38)
+      at requestHandler (file:///D:/WebProjects/htdocs/shopifyappcenter/productimagevariant/node_modules/react-router/dist/development/chunk-65XJMMLO.mjs:1213:24)
+      at processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at nodeHandler (D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3414:30)
+      at D:\WebProjects\htdocs\shopifyappcenter\productimagevariant\node_modules\@react-router\dev\dist\vite.js:3420:17
+}

@@ -1,0 +1,349 @@
+{% comment %}
+  NextGen Smart Variants - JavaScript
+  This snippet contains the JavaScript functionality for NextGen Smart Variants
+{% endcomment %}
+
+<script>
+(function() {
+  'use strict';
+
+  // NextGen Smart Variants Global Object
+  window.NextGenVariants = {
+    version: '1.0.0',
+    appId: '285217980417',
+    initialized: false,
+    products: {},
+    selectedOptions: {},
+
+    // Initialize NextGen Smart Variants
+    init: function(product, options) {
+      if (!product || !product.id) {
+        console.warn('NextGen Smart Variants: Invalid product data');
+        return;
+      }
+
+      const productId = product.id;
+      this.products[productId] = {
+        product: product,
+        options: options || {},
+        selectedOptions: {},
+        selectedVariant: null
+      };
+
+      // Initialize with first available variant
+      if (product.variants && product.variants.length > 0) {
+        const firstVariant = product.variants.find(v => v.available) || product.variants[0];
+        this.selectVariant(productId, firstVariant);
+      }
+
+      // Bind events
+      this.bindEvents(productId);
+      this.initialized = true;
+
+      console.log('NextGen Smart Variants initialized for product:', productId);
+    },
+
+    // Select an option
+    selectOption: function(optionName, optionValue, productId) {
+      // If productId not specified, use the first product
+      if (!productId) {
+        productId = Object.keys(this.products)[0];
+      }
+
+      if (!this.products[productId]) {
+        console.warn('NextGen Smart Variants: Product not found', productId);
+        return;
+      }
+
+      const productData = this.products[productId];
+      productData.selectedOptions[optionName] = optionValue;
+
+      // Find matching variant
+      const matchingVariant = this.findMatchingVariant(productId, productData.selectedOptions);
+      
+      if (matchingVariant) {
+        this.selectVariant(productId, matchingVariant);
+      }
+
+      // Update UI
+      this.updateUI(productId);
+    },
+
+    // Select a variant
+    selectVariant: function(productId, variant) {
+      if (!this.products[productId] || !variant) return;
+
+      const productData = this.products[productId];
+      productData.selectedVariant = variant;
+
+      // Update selected options based on variant
+      if (variant.option1) productData.selectedOptions[productData.product.options[0]] = variant.option1;
+      if (variant.option2) productData.selectedOptions[productData.product.options[1]] = variant.option2;
+      if (variant.option3) productData.selectedOptions[productData.product.options[2]] = variant.option3;
+
+      // Trigger variant change event
+      this.triggerVariantChange(productId, variant);
+    },
+
+    // Find matching variant based on selected options
+    findMatchingVariant: function(productId, selectedOptions) {
+      const product = this.products[productId].product;
+      
+      return product.variants.find(variant => {
+        const matches = [];
+        
+        if (product.options[0] && selectedOptions[product.options[0]]) {
+          matches.push(variant.option1 === selectedOptions[product.options[0]]);
+        }
+        if (product.options[1] && selectedOptions[product.options[1]]) {
+          matches.push(variant.option2 === selectedOptions[product.options[1]]);
+        }
+        if (product.options[2] && selectedOptions[product.options[2]]) {
+          matches.push(variant.option3 === selectedOptions[product.options[2]]);
+        }
+        
+        return matches.every(match => match === true);
+      });
+    },
+
+    // Update UI based on selected variant
+    updateUI: function(productId) {
+      const productData = this.products[productId];
+      if (!productData) return;
+
+      const container = document.querySelector(`[data-product-id="${productId}"]`);
+      if (!container) return;
+
+      const selectedOptions = productData.selectedOptions;
+
+      // Update option buttons
+      container.querySelectorAll('.nextgen-variant-option').forEach(button => {
+        const optionName = button.dataset.optionName;
+        const optionValue = button.dataset.optionValue;
+        
+        if (selectedOptions[optionName] === optionValue) {
+          button.classList.add('nextgen-selected');
+          button.setAttribute('aria-pressed', 'true');
+        } else {
+          button.classList.remove('nextgen-selected');
+          button.setAttribute('aria-pressed', 'false');
+        }
+      });
+
+      // Update variant info
+      if (productData.selectedVariant) {
+        const variantInfo = container.querySelector('.nextgen-variant-info');
+        if (variantInfo) {
+          variantInfo.style.display = 'block';
+          this.updateVariantInfo(container, productData.selectedVariant);
+        }
+      }
+
+      // Update main product form (if exists)
+      this.updateProductForm(productId, productData.selectedVariant);
+    },
+
+    // Update variant information display
+    updateVariantInfo: function(container, variant) {
+      const selectedVariantElement = container.querySelector('.nextgen-selected-variant');
+      if (!selectedVariantElement) return;
+
+      const price = this.formatPrice(variant.price);
+      const comparePrice = variant.compare_at_price ? this.formatPrice(variant.compare_at_price) : null;
+      const available = variant.available;
+      
+      let html = `
+        <div class="nextgen-price-display">
+          <span class="nextgen-current-price" style="font-weight: 600; color: ${available ? '#202223' : '#999'}">
+            ${price}
+          </span>
+      `;
+      
+      if (comparePrice && parseFloat(variant.compare_at_price) > parseFloat(variant.price)) {
+        const savings = Math.round(((parseFloat(variant.compare_at_price) - parseFloat(variant.price)) / parseFloat(variant.compare_at_price)) * 100);
+        html += `
+          <span class="nextgen-compare-price" style="text-decoration: line-through; color: #6d7175; font-size: 0.9em">
+            ${comparePrice}
+          </span>
+          <span class="nextgen-savings-badge" style="background: #d73502; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; font-weight: bold">
+            Save ${savings}%
+          </span>
+        `;
+      }
+      
+      html += `
+          <span class="nextgen-stock-status ${available ? 'in-stock' : 'out-of-stock'}" style="font-size: 0.8em; font-weight: 500; color: ${available ? '#008060' : '#bf0711'}">
+            ${available ? '✓ In stock' : '✗ Out of stock'}
+          </span>
+      `;
+      
+      if (variant.sku) {
+        html += `
+          <span class="nextgen-sku" style="font-size: 0.7em; color: #6d7175; font-family: monospace">
+            SKU: ${variant.sku}
+          </span>
+        `;
+      }
+      
+      html += '</div>';
+      
+      selectedVariantElement.innerHTML = html;
+    },
+
+    // Update main product form with selected variant
+    updateProductForm: function(productId, variant) {
+      if (!variant) return;
+
+      // Update main product form variant ID
+      const variantIdInput = document.querySelector('input[name="id"]');
+      if (variantIdInput) {
+        variantIdInput.value = variant.id;
+      }
+
+      // Update price in main product form
+      const priceElements = document.querySelectorAll('.price, [data-price], .product-price');
+      priceElements.forEach(element => {
+        if (element.textContent.includes('$') || element.textContent.includes('€') || element.textContent.includes('£')) {
+          element.textContent = this.formatPrice(variant.price);
+        }
+      });
+
+      // Update add to cart button
+      const addToCartButton = document.querySelector('button[type="submit"], .btn-product-add, [data-add-to-cart]');
+      if (addToCartButton) {
+        if (variant.available) {
+          addToCartButton.disabled = false;
+          addToCartButton.textContent = addToCartButton.dataset.addText || 'Add to cart';
+        } else {
+          addToCartButton.disabled = true;
+          addToCartButton.textContent = addToCartButton.dataset.soldOutText || 'Sold out';
+        }
+      }
+    },
+
+    // Format price with currency
+    formatPrice: function(price) {
+      if (!price) return '';
+      
+      const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+      if (isNaN(numPrice)) return price;
+
+      // Try to detect currency from existing prices on page
+      const existingPrices = document.querySelectorAll('.price, [data-price]');
+      let currencySymbol = '$'; // default
+      
+      for (let element of existingPrices) {
+        const text = element.textContent;
+        if (text.includes('€')) { currencySymbol = '€'; break; }
+        if (text.includes('£')) { currencySymbol = '£'; break; }
+        if (text.includes('$')) { currencySymbol = '$'; break; }
+      }
+
+      return currencySymbol + numPrice.toFixed(2);
+    },
+
+    // Bind events to option buttons
+    bindEvents: function(productId) {
+      const container = document.querySelector(`[data-product-id="${productId}"]`);
+      if (!container) return;
+
+      // Option button clicks
+      container.querySelectorAll('.nextgen-variant-option').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          if (button.classList.contains('nextgen-unavailable')) {
+            return;
+          }
+
+          const optionName = button.dataset.optionName;
+          const optionValue = button.dataset.optionValue;
+          
+          this.selectOption(optionName, optionValue, productId);
+        });
+      });
+    },
+
+    // Trigger variant change event
+    triggerVariantChange: function(productId, variant) {
+      const event = new CustomEvent('nextgen:variant:change', {
+        detail: {
+          productId: productId,
+          variant: variant,
+          product: this.products[productId].product
+        }
+      });
+      
+      document.dispatchEvent(event);
+
+      // Legacy support
+      if (typeof ShopifyProductForm !== 'undefined' && ShopifyProductForm.onVariantChange) {
+        ShopifyProductForm.onVariantChange(variant);
+      }
+    },
+
+    // Render method for JavaScript integration
+    render: function(element, config) {
+      if (!element || !config || !config.product) {
+        console.warn('NextGen Smart Variants: Invalid render parameters');
+        return;
+      }
+
+      // Create HTML structure
+      const html = this.generateHTML(config.product, config);
+      element.innerHTML = html;
+
+      // Initialize
+      this.init(config.product, config);
+    },
+
+    // Generate HTML structure (simplified version)
+    generateHTML: function(product, options) {
+      const position = options.position || 'above_price';
+      const layout = options.layout || 'horizontal';
+      const size = options.size || 'medium';
+
+      return `
+        <div class="nextgen-variant-visualizer nextgen-${layout} nextgen-${size}" 
+             data-product-id="${product.id}"
+             data-position="${position}"
+             data-layout="${layout}"
+             data-size="${size}">
+          <div class="nextgen-variant-options">
+            <!-- Options will be populated by JavaScript -->
+          </div>
+          <div class="nextgen-variant-info" style="display: none;">
+            <div class="nextgen-selected-variant"></div>
+          </div>
+          <div class="nextgen-attribution" style="font-size: 10px; color: #999; text-align: center; margin-top: 0.5rem;">
+            Powered by NextGen Smart Variants
+          </div>
+        </div>
+      `;
+    }
+  };
+
+  // Auto-initialize on DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
+    // Look for existing NextGen containers
+    document.querySelectorAll('.nextgen-variant-visualizer[data-product-id]').forEach(container => {
+      const productId = container.dataset.productId;
+      
+      // Try to find product data
+      if (window.product && window.product.id == productId) {
+        NextGenVariants.init(window.product, {
+          position: container.dataset.position,
+          layout: container.dataset.layout,
+          size: container.dataset.size
+        });
+      }
+    });
+  });
+
+  // Export for global access
+  window.NextGenVariants = NextGenVariants;
+
+})();
+
+console.log('NextGen Smart Variants v1.0.0 loaded - App ID: 285217980417');
+</script>
