@@ -3,7 +3,7 @@ import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
 } from "react-router";
-import { useFetcher, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   // Mock data for testing - replace with real Shopify API calls later
@@ -188,7 +188,7 @@ interface Product {
 export default function NextGenSmartVariantsApp() {
   // Version indicator for testing
   useEffect(() => {
-    console.log('🚀 NextGen Smart Variants - VERSION 9 - Build Fixed');
+    console.log('🚀 NextGen Smart Variants - VERSION 11 - PostgreSQL + Minimal Admin');
   }, []);
   
   const { products: initialProducts, totalFetched } = useLoaderData<typeof loader>();
@@ -196,24 +196,12 @@ export default function NextGenSmartVariantsApp() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [previewMode, setPreviewMode] = useState<'horizontal' | 'vertical'>('horizontal');
   const [previewSize, setPreviewSize] = useState<'small' | 'medium' | 'large'>('medium');
-  
-  const fetcher = useFetcher();
 
   useEffect(() => {
     setProducts(initialProducts);
   }, [initialProducts]);
 
-  // Handle API responses (simplified for testing)
-  useEffect(() => {
-    if (fetcher.data) {
-      const response = fetcher.data as any;
-      if (!response.success) {
-        console.log('Update failed:', response.error || 'Unknown error');
-      } else {
-        console.log('Update successful:', response.type);
-      }
-    }
-  }, [fetcher.data]);
+  // Simplified for testing - no API calls needed
 
   const styles = {
     container: {

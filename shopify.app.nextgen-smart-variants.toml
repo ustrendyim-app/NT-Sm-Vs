@@ -2,7 +2,7 @@
 
 client_id = "7d73faef9f5579199909a48cf7ce9def"
 name = "NextGen Smart Variants"
-application_url = "https://productimagevariant-nkfkyhcv7-ustrendyim-apps-projects.vercel.app"
+application_url = "https://productimagevariant-b7v6oow33-ustrendyim-apps-projects.vercel.app"
 embedded = true
 
 [webhooks]
@@ -16,5 +16,5 @@ use_legacy_install_flow = false
 
 [auth]
 redirect_urls = [
-  "https://productimagevariant-nkfkyhcv7-ustrendyim-apps-projects.vercel.app/auth"
+  "https://productimagevariant-b7v6oow33-ustrendyim-apps-projects.vercel.app/auth"
 ]
