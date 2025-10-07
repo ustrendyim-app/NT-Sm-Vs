@@ -3,12 +3,10 @@ import { Outlet } from "react-router";
 import { authenticate } from "../shopify.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  // Temporarily bypass auth for testing
-  // await authenticate.admin(request);
+  await authenticate.admin(request);
   
   return {
     apiKey: process.env.SHOPIFY_API_KEY || "",
-    testMode: true
   };
 };
 
